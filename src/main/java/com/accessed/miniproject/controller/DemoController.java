@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/demo")
+@RequestMapping("api/v1/demo")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class DemoController {
 
     @PostMapping("/hello")
     ApiResponse<String> hello() {
+        System.out.println("OK");
         return ApiResponse.<String>builder()
                 .code(200)
                 .message("API send success")

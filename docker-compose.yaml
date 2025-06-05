@@ -26,8 +26,8 @@ services:
 
   mini-proj:
     build:
-      context: .              # Đường dẫn tới thư mục chứa Dockerfile
-      dockerfile: Dockerfile  # Tên file Dockerfile (nếu khác tên thì sửa)
+      context: .
+      dockerfile: Dockerfile
     container_name: mini-proj
     ports:
       - "8080:8080"
