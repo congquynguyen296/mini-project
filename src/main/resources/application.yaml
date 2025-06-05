@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: ${DBMS_URL:jdbc:mysql://localhost:3306/mini_project}
-    username: ${DBMS_USERNAME:root}
-    password: ${DBMS_PASSWORD:root}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/mini_project}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
