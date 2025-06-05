@@ -5,10 +5,7 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/mini_project?createDatabaseIfNotExist=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:}
-#    url: jdbc:mysql://localhost:3306/mini_project
-#    username: root
-#    password:
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -16,4 +13,6 @@ spring:
     show-sql: true
 
 jwt:
-  signerKey: ${SIGNER_KEY}
+  signer-key: ${SIGNER_KEY}
+  valid-duration: 3600
+  refreshable-duration: 36000
