@@ -18,6 +18,7 @@ import java.util.List;
 public class User extends AbstractEntity<String> implements Serializable {
     private String fullName;
     private String email;
+    private String username;
     private String password;
     private LocalDate dob;
     private String country;

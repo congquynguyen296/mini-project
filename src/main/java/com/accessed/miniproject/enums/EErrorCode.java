@@ -13,7 +13,9 @@ public enum EErrorCode {
     UNAUTHORIZED(101, "Unauthorized exception", HttpStatus.UNAUTHORIZED),
     FORBIDDEN(102, "Unauthorized exception", HttpStatus.FORBIDDEN),
 
-    NOTFOUND(103, "This resource does not exist", HttpStatus.NOT_FOUND),
+    NOT_FOUND(103, "This resource does not exist", HttpStatus.NOT_FOUND),
+    NOT_SAVE(104, "This resource does not saved into database", HttpStatus.BAD_REQUEST),
+    RESOURCE_EXISTED(105, "This resource is existed", HttpStatus.BAD_REQUEST),
     ;
 
     EErrorCode(int code, String message, HttpStatusCode httpStatusCode) {

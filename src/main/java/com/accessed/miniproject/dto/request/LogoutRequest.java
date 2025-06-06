@@ -4,11 +4,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Builder
-public class AuthenticationRequest {
-    String username;
-    String password;
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class LogoutRequest {
+
+    String token;
 }

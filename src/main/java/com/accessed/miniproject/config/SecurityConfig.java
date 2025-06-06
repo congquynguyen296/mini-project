@@ -24,7 +24,7 @@ public class SecurityConfig {
     JwtDecoderCustom jwtDecoder;
 
     private final String[] PUBLIC_ENDPOINTS = {
-        "api/v1/**",
+        "api/v1/auth/**",
     };
 
     @Bean
@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().permitAll());
+                        .anyRequest().authenticated());
 
         http
                 .oauth2ResourceServer(oauth2 -> oauth2
