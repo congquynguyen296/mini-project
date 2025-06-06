@@ -1,6 +1,6 @@
 package com.accessed.miniproject.config;
 
-import com.accessed.miniproject.constant.ErrorCode;
+import com.accessed.miniproject.enums.EErrorCode;
 import com.accessed.miniproject.dto.response.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ public class JWTAuthenticationEntryPointConfig implements AuthenticationEntryPoi
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        EErrorCode errorCode = EErrorCode.UNAUTHORIZED;
 
         response.setStatus(errorCode.getHttpStatusCode().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

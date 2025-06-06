@@ -1,6 +1,6 @@
 package com.accessed.miniproject.exception;
 
-import com.accessed.miniproject.constant.ErrorCode;
+import com.accessed.miniproject.enums.EErrorCode;
 import com.accessed.miniproject.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse<String>> exceptionHandler(Exception e) {
         ApiResponse<String> apiResponse = new ApiResponse<>();
-        apiResponse.setCode(ErrorCode.UNCATEGORIZED.getCode());
-        apiResponse.setMessage(ErrorCode.UNCATEGORIZED.getMessage());
+        apiResponse.setCode(EErrorCode.UNCATEGORIZED.getCode());
+        apiResponse.setMessage(EErrorCode.UNCATEGORIZED.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponse> accessDeniedExceptionHandler(AccessDeniedException e) {
-        ErrorCode errorCode = ErrorCode.FORBIDDEN;
+        EErrorCode errorCode = EErrorCode.FORBIDDEN;
 
         return ResponseEntity.status(errorCode.getHttpStatusCode()).body(
                 ApiResponse.builder()
