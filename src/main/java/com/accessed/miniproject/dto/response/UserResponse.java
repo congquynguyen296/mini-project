@@ -1,19 +1,20 @@
 package com.accessed.miniproject.dto.response;
 
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationResponse {
+
+// DTO cache
+public class UserResponse implements Serializable {
 
     String username;
-    String password;
+    String email;
+    String city;
 }
