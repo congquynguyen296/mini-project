@@ -112,6 +112,12 @@
 			<version>1.39.0</version>
 		</dependency>
 
+		<!-- GeoIP -->
+		<dependency>
+			<groupId>com.maxmind.geoip2</groupId>
+			<artifactId>geoip2</artifactId>
+			<version>4.3.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
