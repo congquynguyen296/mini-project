@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +20,13 @@ public class ServiceService {
 
     ServiceRepository serviceRepository;
 
+    @Cacheable(value = "popularServices", key = "#city")
     public List<PopularServiceResponse> findPopularServiceByCity(String city) {
         var result = serviceRepository.findPopularServiceByCity(city);
-
         return result;
     }
+
+    @CacheEvict
+    public void removeCachePopularService() {}
 
 }
