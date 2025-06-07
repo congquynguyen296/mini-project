@@ -1,5 +1,9 @@
 server:
   port: 8080
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 spring:
   datasource:
@@ -29,3 +33,8 @@ jwt:
   signerKey: ${SIGNER_KEY:uT+Q3VZKCE+yNxmPoB0SH7qqDB8EGtBQY/F1GK2shIRKMZasRvvvyI5T/5y/FDX+}
   valid-duration: 3600
   refreshable-duration: 36000
+
+cloudinary:
+  name: dyimxnbb8
+  apiKey: 828882965973278
+  secretKey: dsNG5xuNz08714z3N6Eew0vaK9s
