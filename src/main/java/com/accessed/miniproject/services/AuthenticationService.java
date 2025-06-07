@@ -49,7 +49,7 @@ public class AuthenticationService {
     protected long VALID_DURATION;
 
     @NonFinal
-    @Value("${jwt.valid-duration}")
+    @Value("${jwt.refreshable-duration}")
     protected long REFRESHABLE_DURATION;
 
     UserRepository userRepository;
@@ -62,9 +62,10 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(EErrorCode.NOT_FOUND));
 
-
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new AppException(EErrorCode.UNAUTHORIZED);
+
+        // Handle other
 
         // Generate token if authenticated is success
         var token = generateToken(user);
