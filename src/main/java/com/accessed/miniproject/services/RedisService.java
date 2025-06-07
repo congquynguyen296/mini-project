@@ -28,12 +28,9 @@ public class RedisService {
             return null;
         }
         try {
-            if (value instanceof String) {
-                return objectMapper.readValue((String) value, clazz);
-            }
             return objectMapper.convertValue(value, clazz);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to deserialize JSON from Redis", e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Failed to deserialize object from Redis", e);
         }
     }
 
@@ -41,13 +38,8 @@ public class RedisService {
         if (value == null) {
             return;
         }
-        try {
-            String json = objectMapper.writeValueAsString(value);
-            log.info("Redis set: key={}, json={}", key, json);
-            redisTemplate.opsForValue().set(key, value, Duration.ofSeconds(timeout));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to serialize object to JSON", e);
-        }
+        log.info("Redis set: key={}, value={}", key, value);
+        redisTemplate.opsForValue().set(key, value, Duration.ofSeconds(timeout));
     }
 
     public void deleteObject(String key) {
