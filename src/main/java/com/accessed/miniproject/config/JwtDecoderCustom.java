@@ -2,6 +2,10 @@ package com.accessed.miniproject.config;
 
 import com.accessed.miniproject.dto.request.IntrospectRequest;
 import com.accessed.miniproject.services.AuthenticationService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -15,16 +19,19 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtDecoderCustom implements JwtDecoder {
 
 
-    @Value("${jwt.signerKey}")
-    private String signerKey;
+    @Value("${jwt.signer-key}")
+    @NonFinal
+    String signerKey;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    @NonFinal
+    NimbusJwtDecoder nimbusJwtDecoder = null;
 
-    private NimbusJwtDecoder nimbusJwtDecoder = null;
+    AuthenticationService authenticationService;
 
     @Override
     public Jwt decode(String token) throws JwtException {
@@ -36,7 +43,7 @@ public class JwtDecoderCustom implements JwtDecoder {
         if (Objects.isNull(nimbusJwtDecoder)) {
             SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
             nimbusJwtDecoder = NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                    .macAlgorithm(MacAlgorithm.HS256)
+                    .macAlgorithm(MacAlgorithm.HS512)
                     .build();
         }
 

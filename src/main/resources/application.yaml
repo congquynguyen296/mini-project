@@ -3,14 +3,29 @@ server:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/mini_project?createDatabaseIfNotExist=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
+
+
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+  cache:
+    redis:
+      time-to-live: 600000  # ms
+
 jwt:
-  signerKey: ${SIGNER_KEY}
+  signerKey: ${SIGNER_KEY:uT+Q3VZKCE+yNxmPoB0SH7qqDB8EGtBQY/F1GK2shIRKMZasRvvvyI5T/5y/FDX+}
+  valid-duration: 3600
+  refreshable-duration: 36000

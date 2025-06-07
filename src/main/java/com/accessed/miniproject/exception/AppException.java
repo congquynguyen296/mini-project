@@ -1,6 +1,6 @@
 package com.accessed.miniproject.exception;
 
-import com.accessed.miniproject.constant.ErrorCode;
+import com.accessed.miniproject.enums.EErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class AppException extends RuntimeException {
 
-    private ErrorCode errorCode;
+    private EErrorCode errorCode;
 
-    public AppException(ErrorCode errorCode) {
+    public AppException(EErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
