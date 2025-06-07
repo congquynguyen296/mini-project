@@ -5,7 +5,6 @@ import com.accessed.miniproject.dto.response.ApiResponse;
 import com.accessed.miniproject.dto.response.ProvincesResponse;
 import com.accessed.miniproject.enums.EErrorCode;
 import com.accessed.miniproject.exception.AppException;
-import com.accessed.miniproject.model.Provinces;
 import com.accessed.miniproject.services.ProvincesService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
