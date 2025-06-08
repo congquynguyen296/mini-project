@@ -31,6 +31,7 @@ public class SecurityConfig {
 
 //            Test endpoint nhớ xóa
             "api/v1/**",
+            "api/v1/geo/**",
     };
 
     @Bean
@@ -58,6 +59,8 @@ public class SecurityConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedOrigin("http://localhost:5173");
+        corsConfiguration.addAllowedOrigin("http://localhost:5500");
+        corsConfiguration.addAllowedOrigin("https://e379-2405-4802-a621-6150-a562-a0b0-5187-72de.ngrok-free.app");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
