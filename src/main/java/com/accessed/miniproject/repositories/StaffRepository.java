@@ -18,8 +18,8 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     @Query(value = """
         WITH review_data AS (
-            SELECT\s
-                r.subject_id,\s
+            SELECT
+                r.subject_id,
                 AVG(r.rate) AS avgRate
             FROM tbl_review r
             JOIN tbl_staff s ON r.subject_id = s.id
@@ -29,8 +29,8 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
             GROUP BY r.subject_id
         ),
         favorite_data AS (
-            SELECT\s
-                f.subject_id,\s
+            SELECT
+                f.subject_id,
                 COUNT(f.subject_id) AS favoriteCount
             FROM tbl_favorite f
             JOIN tbl_staff_location sl ON f.subject_id = sl.staff_id
@@ -39,8 +39,8 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
             GROUP BY f.subject_id
         ),
         appointment_data AS (
-            SELECT\s
-                a.staff_id AS subject_id,\s
+            SELECT
+                a.staff_id AS subject_id,
                 COUNT(*) AS appointmentCount
             FROM tbl_appointment a
             JOIN tbl_staff_location sl ON a.staff_id = sl.staff_id
@@ -49,7 +49,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
             GROUP BY a.staff_id
         )
         
-        SELECT\s
+        SELECT
             s.id AS staff_id,
             s.full_name,
             s.address,
@@ -67,5 +67,4 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
         ;
     """, nativeQuery = true)
     List<PopularStaffResponse> popularStaff(String city);
-
 }
