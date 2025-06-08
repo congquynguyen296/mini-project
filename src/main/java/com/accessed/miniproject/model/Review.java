@@ -21,9 +21,11 @@ import java.io.Serializable;
 public class Review extends AbstractEntity<String> implements Serializable {
     private String content;
     private int rate;
+    private String subjectId;
 
     @Enumerated(EnumType.STRING)
     private ERateType subjectType;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")

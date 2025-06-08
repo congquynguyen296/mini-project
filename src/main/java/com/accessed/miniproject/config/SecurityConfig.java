@@ -27,6 +27,10 @@ public class SecurityConfig {
         "api/v1/auth/**",
             "api/v1/staff/**",
             "api/v1/sector/**",
+            "api/v1/locations/**",
+
+//            Test endpoint nhớ xóa
+            "api/v1/**",
     };
 
     @Bean

@@ -1,6 +1,8 @@
 package com.accessed.miniproject.services;
 
 import com.accessed.miniproject.dto.request.UserCreationRequest;
+import com.accessed.miniproject.dto.response.PopularLocationResponse;
+import com.accessed.miniproject.dto.response.PopularStaffResponse;
 import com.accessed.miniproject.dto.response.UserCreationResponse;
 import com.accessed.miniproject.dto.response.UserResponse;
 import com.accessed.miniproject.enums.EErrorCode;
@@ -32,5 +34,9 @@ public class StaffService {
 
     public long count(){
         return staffRepository.count();
+    }
+
+    public List<PopularStaffResponse> getPopularStaffs(String city) {
+        return staffRepository.popularStaff(city);
     }
 }

@@ -24,4 +24,13 @@ public class StaffController {
                 .result(staffService.count())
                 .build();
     }
+    @GetMapping("/popular")
+    public ApiResponse<?> numberOfPopularStaffsByCity(@RequestParam String city){
+        return ApiResponse.builder()
+                .code(200)
+                .message("Successful API")
+                .result(staffService.getPopularStaffs(city))
+                .build();
+    }
+
 }
