@@ -33,3 +33,4 @@ build/
 .vscode/
 ### Environment files ###
 .env
+.DS_Store
