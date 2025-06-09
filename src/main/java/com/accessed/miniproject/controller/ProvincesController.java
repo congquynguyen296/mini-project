@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/provinces")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -40,6 +42,13 @@ public class ProvincesController {
                 .code(200)
                 .message("API send success")
                 .result(provincesService.createProvinces(request))
+                .build();
+    }
+
+    @GetMapping()
+    public ApiResponse<List<ProvincesResponse>> getAllProvinces() {
+        return ApiResponse.<List<ProvincesResponse>>builder()
+                .result(provincesService.getAllProvinces())
                 .build();
     }
 }
