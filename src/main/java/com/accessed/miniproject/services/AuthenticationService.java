@@ -67,6 +67,7 @@ public class AuthenticationService {
 
         // Handle other
 
+
         // Generate token if authenticated is success
         var token = generateToken(user);
         return AuthenticationResponse.builder()

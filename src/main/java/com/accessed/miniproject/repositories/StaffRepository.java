@@ -1,8 +1,10 @@
 package com.accessed.miniproject.repositories;
 
 import com.accessed.miniproject.dto.response.PopularStaffResponse;
+import com.accessed.miniproject.dto.response.SearchResponse;
 import com.accessed.miniproject.model.Staff;
 import com.accessed.miniproject.model.User;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -68,4 +70,16 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     """, nativeQuery = true)
     List<PopularStaffResponse> popularStaff(String city);
 
+    @Query(value = "SELECT DISTINCT " +
+            "    s.id AS did, " +
+            "    s.image AS dimage, " +
+            "    s.full_name AS dname " +
+            "FROM tbl_staff s " +
+            "JOIN tbl_staff_location sl ON s.id = sl.staff_id " +
+            "JOIN tbl_location l ON sl.location_id = l.id " +
+            "WHERE l.city = :city " +
+            "AND s.full_name LIKE CONCAT('%', :keyword, '%') " +
+            "AND :keyword IS NOT NULL AND :keyword <> ''",
+            nativeQuery = true)
+    List<SearchResponse> searchStaffs(@Param("keyword") String keyword, @Param("city") String city);
 }
