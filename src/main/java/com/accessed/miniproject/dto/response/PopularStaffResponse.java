@@ -11,6 +11,7 @@ public class PopularStaffResponse {
     private String staffid;
     private String fullname;
     private String address;
+    private String image;
     private double avgRate;
     private long appointmentCount;
     private long favoriteCount;
