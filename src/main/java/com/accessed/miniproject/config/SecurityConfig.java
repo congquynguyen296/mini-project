@@ -25,12 +25,12 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
         "api/v1/auth/**",
-            "api/v1/staff/**",
-            "api/v1/sector/**",
-            "api/v1/locations/**",
+        "api/v1/staff/**",
+        "api/v1/sector/**",
+        "api/v1/locations/**",
 
-            "api/v1/**",
-            "api/v1/geo/**",
+        "api/v1/**",
+        "api/v1/geo/**",
     };
 
     @Bean
