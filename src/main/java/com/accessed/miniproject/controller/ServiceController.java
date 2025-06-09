@@ -33,7 +33,8 @@ public class ServiceController {
         return ApiResponse.<List<PopularServiceResponse>>builder()
                 .code(200)
                 .message("API send success")
-                .result(serviceService.findPopularServiceByCity(city))
+                // .result(serviceService.findPopularServiceByCity(city))
+                .result(serviceService.findPopularServiceByCityWithRedis(city))
                 .build();
     }
 }

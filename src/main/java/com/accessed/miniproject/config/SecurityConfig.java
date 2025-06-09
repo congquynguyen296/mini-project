@@ -29,7 +29,6 @@ public class SecurityConfig {
             "api/v1/sector/**",
             "api/v1/locations/**",
 
-//            Test endpoint nhớ xóa
             "api/v1/**",
             "api/v1/geo/**",
     };

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/locations")
+@RequestMapping("api/v1/locations")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LocationController {
     LocationService locationService;

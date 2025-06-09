@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SectorRepository extends JpaRepository<Sector, String> {
-//    Page<Sector> findAll(Pageable pageable);
+    Page<Sector> findAll(Pageable pageable);
 }

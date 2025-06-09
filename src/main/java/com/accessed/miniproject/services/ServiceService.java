@@ -19,6 +19,7 @@ import java.util.List;
 public class ServiceService {
 
     ServiceRepository serviceRepository;
+    RedisService redisService;
 
     @Cacheable(value = "popularServices", key = "#city")
     public List<PopularServiceResponse> findPopularServiceByCity(String city) {
@@ -26,8 +27,27 @@ public class ServiceService {
         return result;
     }
 
-    @CacheEvict
-    public void removeCachePopularService() {}
+    @CacheEvict(value = "popularServices", key = "#city")
+    public void removeCachePopularService(String city) {}
+
+    public List<PopularServiceResponse> findPopularServiceByCityWithRedis(String city) {
+
+        List cachedResult = redisService.getObject("popularServices::" + city, List.class);
+        if (cachedResult != null) {
+            return cachedResult;
+        }
+
+        List<PopularServiceResponse> result = serviceRepository.findPopularServiceByCity(city);
+
+        redisService.setObject("popularServices::" + city, result, 3600);
+
+        return result;
+    }
+
+    // Clear cache when data update
+    public void clearPopularServicesCache(String city) {
+        redisService.deleteObject("popularServices::" + city);
+    }
 
 
 }
