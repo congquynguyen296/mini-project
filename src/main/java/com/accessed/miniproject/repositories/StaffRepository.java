@@ -63,6 +63,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
          FROM avg_rates ar
          LEFT JOIN appointment_counts ac ON ar.staff_id = ac.staff_id
          LEFT JOIN favorite_counts fc ON COALESCE(ar.staff_id, ac.staff_id) = fc.staff_id
+         order by avgRate desc, appointmentCount desc, favoriteCount desc
          ;
     """, nativeQuery = true)
     List<PopularStaffResponse> popularStaff(String city);

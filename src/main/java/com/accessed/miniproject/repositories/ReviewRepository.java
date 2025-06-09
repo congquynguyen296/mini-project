@@ -44,6 +44,7 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
         FROM avg_rates ar
         LEFT JOIN appointment_counts ac ON ar.location_id = ac.location_id
         LEFT JOIN favorite_counts fc ON COALESCE(ar.location_id, ac.location_id) = fc.location_id
+        order by avgRate desc, appointmentCount desc, favoriteCount desc
         ;
     """, nativeQuery = true)
     List<PopularLocationResponse> popularLocations(String city);
