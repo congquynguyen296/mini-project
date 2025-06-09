@@ -18,7 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "tbl_provinces")
 public class Provinces extends AbstractEntity<String> implements Serializable {
-
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String image;
     private String city;
     private String cityCode;
