@@ -18,6 +18,11 @@ import java.util.Optional;
 public interface StaffRepository extends JpaRepository<Staff, String> {
     long count();
 
+    @Query("SELECT COUNT(*) FROM Staff s " +
+            "JOIN StaffLocation sl ON s.id = sl.staff.id " +
+            "WHERE sl.location.city = :city")
+    long countAllStaffByCity(String city);
+
     @Query(value = """
         WITH avg_rates AS (
              select distinct s.id as staff_id, s.full_name, s.address, s.image, avg(r.rate) as avgRate from tbl_staff s

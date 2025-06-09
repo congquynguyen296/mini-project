@@ -32,8 +32,9 @@ import java.util.stream.Collectors;
 public class StaffService {
     StaffRepository staffRepository;
 
-    public long count(){
-        return staffRepository.count();
+    public long count(String city){
+        // return staffRepository.count();
+        return staffRepository.countAllStaffByCity(city);
     }
 
     public List<PopularStaffResponse> getPopularStaffs(String city) {
