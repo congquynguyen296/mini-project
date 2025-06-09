@@ -18,6 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "tbl_location")
 public class Location extends AbstractEntity<String> implements Serializable {
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String image;
     private String country;
     private String city;

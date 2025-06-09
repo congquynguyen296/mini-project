@@ -19,5 +19,6 @@ import java.util.List;
 @Table(name = "tbl_sector")
 public class Sector extends AbstractEntity<String> implements Serializable {
     private String name;
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String logo;
 }

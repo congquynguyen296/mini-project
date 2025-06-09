@@ -19,54 +19,46 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     long count();
 
     @Query(value = """
-        WITH review_data AS (
-            SELECT\s
-                r.subject_id,\s
-                AVG(r.rate) AS avgRate
-            FROM tbl_review r
-            JOIN tbl_staff s ON r.subject_id = s.id
-            JOIN tbl_staff_location sl ON s.id = sl.staff_id
-            JOIN tbl_location l ON sl.location_id = l.id
-            WHERE l.city = :city AND r.subject_type = 'STAFF'
-            GROUP BY r.subject_id
-        ),
-        favorite_data AS (
-            SELECT\s
-                f.subject_id,\s
-                COUNT(f.subject_id) AS favoriteCount
-            FROM tbl_favorite f
-            JOIN tbl_staff_location sl ON f.subject_id = sl.staff_id
-            JOIN tbl_location l ON sl.location_id = l.id
-            WHERE l.city = :city
-            GROUP BY f.subject_id
-        ),
-        appointment_data AS (
-            SELECT\s
-                a.staff_id AS subject_id,\s
-                COUNT(*) AS appointmentCount
-            FROM tbl_appointment a
-            JOIN tbl_staff_location sl ON a.staff_id = sl.staff_id
-            JOIN tbl_location l ON sl.location_id = l.id
-            WHERE l.city = :city
-            GROUP BY a.staff_id
-        )
-        
-        SELECT\s
-            s.id AS staff_id,
-            s.full_name,
-            s.address,
-            CAST(COALESCE(rd.avgRate, 0) AS DOUBLE PRECISION) AS avgRate,
-            COALESCE(fd.favoriteCount, 0) AS favoriteCount,
-            COALESCE(ad.appointmentCount, 0) AS appointmentCount
-        FROM tbl_staff s
-        JOIN tbl_staff_location sl ON s.id = sl.staff_id
-        JOIN tbl_location l ON sl.location_id = l.id
-        LEFT JOIN review_data rd ON s.id = rd.subject_id
-        LEFT JOIN favorite_data fd ON s.id = fd.subject_id
-        LEFT JOIN appointment_data ad ON s.id = ad.subject_id
-        WHERE l.city = :city
-        GROUP BY s.id, s.full_name, s.address, rd.avgRate, fd.favoriteCount, ad.appointmentCount
-        ;
+        WITH avg_rates AS (
+             select distinct s.id as staff_id, s.full_name, s.address, s.image, avg(r.rate) as avgRate from tbl_staff s
+         	left join tbl_staff_location sl on s.id = sl.staff_id
+         	join tbl_location l on l.id = sl.location_id
+         	join tbl_review r on s.id = r.subject_id
+         	where l.city = :city
+         	group by s.id
+         	order by avgRate desc
+         	LIMIT 8
+         ),
+         appointment_counts AS (
+             select s.id as staff_id, count(1) as appointmentCount from tbl_staff s
+         	left join tbl_staff_location sl on s.id = sl.staff_id
+         	join tbl_location l on l.id = sl.location_id
+         	join tbl_appointment a on s.id = a.staff_id
+         	where l.city = :city
+         	group by s.id
+         	order by appointmentCount desc
+         	LIMIT 8
+         ),
+         favorite_counts AS (
+             select s.id as staff_id, count(1) as favoriteCount from tbl_staff s
+         	left join tbl_staff_location sl on s.id = sl.staff_id
+         	join tbl_location l on l.id = sl.location_id
+         	join tbl_favorite f on s.id = f.subject_id
+         	where l.city = :city
+         	group by s.id
+         	order by favoriteCount desc
+         	LIMIT 8
+         )
+         
+         SELECT\s
+             ar.staff_id, ar.full_name, ar.address, ar.image,
+             cast(ar.avgRate as double precision) as avgRate,
+             coalesce(ac.appointmentCount, 0) as appointmentCount,
+             coalesce(fc.favoriteCount, 0) as favoriteCount
+         FROM avg_rates ar
+         LEFT JOIN appointment_counts ac ON ar.staff_id = ac.staff_id
+         LEFT JOIN favorite_counts fc ON COALESCE(ar.staff_id, ac.staff_id) = fc.staff_id
+         ;
     """, nativeQuery = true)
     List<PopularStaffResponse> popularStaff(String city);
 
