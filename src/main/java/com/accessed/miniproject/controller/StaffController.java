@@ -17,11 +17,11 @@ public class StaffController {
     StaffService staffService;
 
     @GetMapping("/count")
-    ApiResponse<Long> createUser() {
+    ApiResponse<Long> countStaffByCity(@RequestParam String city) {
         return ApiResponse.<Long>builder()
                 .code(200)
                 .message("API send success")
-                .result(staffService.count())
+                .result(staffService.count(city))
                 .build();
     }
     @GetMapping("/popular")
