@@ -9,45 +9,42 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, String> {
     @Query(value = """
-        WITH avg_ratings AS (
-            SELECT r.subject_id AS location_id, AVG(r.rate) AS avgRate
-            FROM tbl_review r
-            JOIN tbl_location l ON r.subject_id = l.id
-            WHERE l.city = :city AND r.subject_type = 'BUSINESS'
-            GROUP BY r.subject_id
+        WITH avg_rates AS (
+            select l.id as location_id, l.district, l.street, b.name, l.image, cast(coalesce(avg(r.rate), 0) as double precision ) as avgRate from tbl_location l
+        	left join tbl_review r on l.id = r.subject_id
+        	left join tbl_business b on l.business_id = b.id
+        	where l.city = :city
+        	group by l.id
+        	order by avgRate desc
+        	LIMIT 8
         ),
         appointment_counts AS (
-            SELECT l.id AS location_id, COUNT(1) AS appointmentCount
-            FROM tbl_appointment a
-            JOIN tbl_service_location sl ON a.service_location_id = sl.location_id
-            JOIN tbl_location l ON sl.location_id = l.id
-            WHERE l.city = :city
-            GROUP BY l.id
+            select l.id as location_id, count(1) as appointmentCount from tbl_location l
+        	left join tbl_service_location sl on l.id = sl.location_id
+        	join tbl_appointment a on a.service_location_id = sl.id
+        	where l.city = :city
+        	group by l.id
+        	order by appointmentCount desc
+        	LIMIT 8
         ),
         favorite_counts AS (
-            SELECT f.subject_id AS location_id, COUNT(1) AS favoriteCount
-            FROM tbl_favorite f
-            JOIN tbl_location l ON f.subject_id = l.id
-            WHERE l.city = :city AND f.subject_type = 'BUSINESS'
-            GROUP BY f.subject_id
+            select l.id as location_id, coalesce(count(1), 0) as favoriteCount from tbl_location l
+        	join tbl_favorite f on l.id = f.subject_id
+        	where l.city = :city
+        	group by l.id
+        	order by favoriteCount desc
+        	LIMIT 8
         )
-        SELECT
-            l.id AS locationId,
-            l.district,
-            l.street,
-            b.name,
-            l.image,
-            CAST(COALESCE(ar.avgRate, 0) AS DOUBLE PRECISION) AS avgRate,
+        
+        SELECT\s
+            ar.location_id, ar.district, ar.street, ar.name, ar.image,
+            COALESCE(ar.avgRate, 0) AS avgRate,
             COALESCE(ac.appointmentCount, 0) AS appointmentCount,
             COALESCE(fc.favoriteCount, 0) AS favoriteCount
-        FROM tbl_location l
-        JOIN tbl_business b ON b.id = l.business_id
-        LEFT JOIN avg_ratings ar ON ar.location_id = l.id
-        LEFT JOIN appointment_counts ac ON ac.location_id = l.id
-        LEFT JOIN favorite_counts fc ON fc.location_id = l.id
-        WHERE l.city = :city
-        ORDER BY avgRate ASC
-        LIMIT 8
+        FROM avg_rates ar
+        LEFT JOIN appointment_counts ac ON ar.location_id = ac.location_id
+        LEFT JOIN favorite_counts fc ON COALESCE(ar.location_id, ac.location_id) = fc.location_id
+        ;
     """, nativeQuery = true)
     List<PopularLocationResponse> popularLocations(String city);
 }
