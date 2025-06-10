@@ -36,8 +36,6 @@ public interface ServiceRepository extends JpaRepository<Service, String> {
 
 
     @Query(value = "SELECT DISTINCT " +
-            "    s.id AS did, " +
-            "    s.image AS dimage, " +
             "    s.name AS dname " +
             "FROM tbl_service s " +
             "JOIN tbl_service_location sl ON s.id = sl.service_id " +
