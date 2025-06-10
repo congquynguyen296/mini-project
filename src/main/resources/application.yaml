@@ -27,7 +27,7 @@ spring:
       port: ${REDIS_PORT:6380}
       password: ${REDIS_PASSWORD:123}
       ssl:
-        enabled: false
+        enabled: true
 
   cache:
     redis:
