@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, String> {
     int countLocationByCity(String city);
+    Location getLocationById(String id);
 
     @Query(value = "SELECT DISTINCT " +
             "    b.name AS dname " +

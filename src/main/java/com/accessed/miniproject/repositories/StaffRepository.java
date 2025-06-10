@@ -17,8 +17,9 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, String> {
     long count();
+    Staff getStaffById(String id);
 
-    @Query("SELECT COUNT(*) FROM Staff s " +
+    @Query("SELECT COUNT(distinct (s.id)) FROM Staff s " +
             "JOIN StaffLocation sl ON s.id = sl.staff.id " +
             "WHERE sl.location.city = :city")
     long countAllStaffByCity(String city);
