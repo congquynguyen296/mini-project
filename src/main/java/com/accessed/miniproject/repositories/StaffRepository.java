@@ -69,8 +69,6 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     List<PopularStaffResponse> popularStaff(String city);
 
     @Query(value = "SELECT DISTINCT " +
-            "    s.id AS did, " +
-            "    s.image AS dimage, " +
             "    s.full_name AS dname " +
             "FROM tbl_staff s " +
             "JOIN tbl_staff_location sl ON s.id = sl.staff_id " +

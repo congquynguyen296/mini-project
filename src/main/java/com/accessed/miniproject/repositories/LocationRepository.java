@@ -14,8 +14,6 @@ public interface LocationRepository extends JpaRepository<Location, String> {
     int countLocationByCity(String city);
 
     @Query(value = "SELECT DISTINCT " +
-            "    b.id AS did, " +
-            "    l.image AS dimage, " +
             "    b.name AS dname " +
             "FROM tbl_business b " +
             "LEFT JOIN tbl_location l ON b.id = l.business_id " +

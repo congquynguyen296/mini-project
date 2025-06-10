@@ -9,8 +9,5 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SearchResponse {
-
-    String did;
-    String dimage;
     String dname;
 }
